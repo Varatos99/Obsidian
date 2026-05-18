@@ -219,11 +219,11 @@ local Library = {
 
     IsLightTheme = false,
     Scheme = {
-        BackgroundColor = Color3.fromRGB(20, 18, 28),
-        MainColor = Color3.fromRGB(30, 28, 40),
+        BackgroundColor = Color3.fromRGB(28, 25, 38),
+        MainColor = Color3.fromRGB(40, 37, 52),
         AccentColor = Color3.fromRGB(157, 78, 221),
         Accent2Color = Color3.fromRGB(255, 195, 0),
-        OutlineColor = Color3.fromRGB(45, 40, 55),
+        OutlineColor = Color3.fromRGB(55, 48, 68),
         FontColor = Color3.new(1, 1, 1),
         TextMuted = Color3.fromRGB(139, 146, 165),
         Font = Font.fromEnum(Enum.Font.GothamMedium),
@@ -232,8 +232,8 @@ local Library = {
         DestructiveColor = Color3.fromRGB(220, 38, 38),
         DarkColor = Color3.new(0, 0, 0),
         WhiteColor = Color3.new(1, 1, 1),
-        NotificationBg = Color3.fromRGB(25, 23, 33),
-        SidebarColor = Color3.fromRGB(15, 13, 20),
+        NotificationBg = Color3.fromRGB(33, 30, 43),
+        SidebarColor = Color3.fromRGB(24, 21, 34),
     },
 
     Registry = {},
@@ -317,7 +317,7 @@ local Templates = {
         Center = true,
         Resizable = true,
         SearchbarSize = UDim2.fromScale(1, 1),
-        DisableSearch = true,
+        DisableSearch = false,
         GlobalSearch = false,
         CornerRadius = 10,
         NotifySide = "Right",
@@ -6878,7 +6878,7 @@ function Library:CreateWindow(WindowInfo)
                 Position = UDim2.fromOffset(IconOffset, 0),
                 Size = UDim2.new(1, -IconOffset, 1, 0),
                 Text = (Icon and "" or "  ") .. Name,
-                TextColor3 = "TextMuted",
+                TextColor3 = "WhiteColor",
                 TextSize = 13,
                 TextXAlignment = Enum.TextXAlignment.Left,
                 Visible = not IsCompact,
@@ -6888,7 +6888,7 @@ function Library:CreateWindow(WindowInfo)
             if Icon then
                 TabIcon = New("ImageLabel", {
                     Image = Icon.Url,
-                    ImageColor3 = Icon.Custom and "WhiteColor" or "AccentColor",
+                    ImageColor3 = "AccentColor",
                     ImageRectOffset = Icon.ImageRectOffset,
                     ImageRectSize = Icon.ImageRectSize,
                     ImageTransparency = 0.5,
@@ -7625,6 +7625,7 @@ function Library:CreateWindow(WindowInfo)
                 TextTransparency = 0,
             }):Play()
             if TabIcon then
+                TabIcon.ImageColor3 = Library.Scheme.WhiteColor
                 TweenService:Create(TabIcon, Library.TweenInfo, {
                     ImageTransparency = 0,
                 }):Play()
@@ -7648,11 +7649,12 @@ function Library:CreateWindow(WindowInfo)
             TweenService:Create(TabButton, Library.TweenInfo, {
                 BackgroundTransparency = 1,
             }):Play()
-            TabLabel.TextColor3 = Library.Scheme.TextMuted
+            TabLabel.TextColor3 = Library.Scheme.WhiteColor
             TweenService:Create(TabLabel, Library.TweenInfo, {
                 TextTransparency = 0.5,
             }):Play()
             if TabIcon then
+                TabIcon.ImageColor3 = Library.Scheme.AccentColor
                 TweenService:Create(TabIcon, Library.TweenInfo, {
                     ImageTransparency = 0.5,
                 }):Play()
@@ -7735,7 +7737,7 @@ function Library:CreateWindow(WindowInfo)
                 Position = UDim2.fromOffset(IconOffset, 0),
                 Size = UDim2.new(1, -IconOffset, 1, 0),
                 Text = (Icon and "" or "  ") .. Name,
-                TextColor3 = "TextMuted",
+                TextColor3 = "WhiteColor",
                 TextSize = 13,
                 TextXAlignment = Enum.TextXAlignment.Left,
                 Visible = not IsCompact,
@@ -7745,7 +7747,7 @@ function Library:CreateWindow(WindowInfo)
             if Icon then
                 TabIcon = New("ImageLabel", {
                     Image = Icon.Url,
-                    ImageColor3 = Icon.Custom and "WhiteColor" or "AccentColor",
+                    ImageColor3 = "AccentColor",
                     ImageRectOffset = Icon.ImageRectOffset,
                     ImageRectSize = Icon.ImageRectSize,
                     ImageTransparency = 0.5,
@@ -7929,6 +7931,7 @@ function Library:CreateWindow(WindowInfo)
                 TextTransparency = 0,
             }):Play()
             if TabIcon then
+                TabIcon.ImageColor3 = Library.Scheme.WhiteColor
                 TweenService:Create(TabIcon, Library.TweenInfo, {
                     ImageTransparency = 0,
                 }):Play()
@@ -7952,11 +7955,12 @@ function Library:CreateWindow(WindowInfo)
             TweenService:Create(TabButton, Library.TweenInfo, {
                 BackgroundTransparency = 1,
             }):Play()
-            TabLabel.TextColor3 = Library.Scheme.TextMuted
+            TabLabel.TextColor3 = Library.Scheme.WhiteColor
             TweenService:Create(TabLabel, Library.TweenInfo, {
                 TextTransparency = 0.5,
             }):Play()
             if TabIcon then
+                TabIcon.ImageColor3 = Library.Scheme.AccentColor
                 TweenService:Create(TabIcon, Library.TweenInfo, {
                     ImageTransparency = 0.5,
                 }):Play()
