@@ -6375,7 +6375,11 @@ function Library:CreateWindow(WindowInfo)
                 Parent = MainFrame,
             })
         )
-        Library:AddOutline(MainFrame)
+        New("UIStroke", {
+            Color = "OutlineColor",
+            Thickness = 1,
+            Parent = MainFrame,
+        })
 
         if WindowInfo.BackgroundImage then
             BackgroundImage = New("ImageLabel", {
@@ -6672,7 +6676,7 @@ function Library:CreateWindow(WindowInfo)
         --// Container \\--
         Container = New("Frame", {
             AnchorPoint = Vector2.new(1, 0),
-            BackgroundColor3 = "BackgroundColor",
+            BackgroundTransparency = 1,
             Name = "Container",
             Position = UDim2.new(1, 0, 0, 40),
             Size = UDim2.new(1, -InitialLeftWidth, 1, -60),
