@@ -317,6 +317,7 @@ local Templates = {
         Center = true,
         Resizable = true,
         SearchbarSize = UDim2.fromScale(1, 1),
+        DisableSearch = true,
         GlobalSearch = false,
         CornerRadius = 10,
         NotifySide = "Right",
@@ -4578,7 +4579,7 @@ do
 
         local Holder = New("Frame", {
             BackgroundColor3 = "MainColor",
-            Size = UDim2.new(1, 0, 0, 40),
+            Size = UDim2.new(1, 0, 0, 36),
             Visible = Dropdown.Visible,
             Parent = Container,
         })
@@ -4593,8 +4594,8 @@ do
 
         local Label = New("TextLabel", {
             BackgroundTransparency = 1,
-            Size = UDim2.new(1, -120, 1, 0),
-            Position = UDim2.fromOffset(15, 0),
+            Size = UDim2.new(1, -96, 1, 0),
+            Position = UDim2.fromOffset(12, 0),
             Text = Dropdown.Text,
             TextSize = 13,
             TextXAlignment = Enum.TextXAlignment.Left,
@@ -4604,8 +4605,8 @@ do
 
         local DisplayContainer = New("TextButton", {
             BackgroundColor3 = "MainColor",
-            Position = UDim2.new(1, -105, 0.5, -11),
-            Size = UDim2.fromOffset(100, 22),
+            Position = UDim2.new(1, -84, 0.5, -10),
+            Size = UDim2.fromOffset(80, 20),
             Text = "",
             TextTransparency = 1,
             Parent = Holder,
@@ -4790,7 +4791,7 @@ do
                 DisplayImage.ImageTransparency = 1
             end
 
-            DisplayButton.Size = ValueImage and UDim2.new(1, -8, 0, 21) or UDim2.new(1, 0, 0, 21)
+            DisplayButton.Size = ValueImage and UDim2.new(1, -8, 0, 20) or UDim2.new(1, 0, 0, 20)
             DisplayButton.Position = ValueImage and UDim2.fromOffset(14, 0) or UDim2.fromOffset(0, 0)
         end
 
@@ -6845,11 +6846,12 @@ function Library:CreateWindow(WindowInfo)
                 Parent = TabButton,
             }))
 
+            local IconOffset = Icon and 28 or 10
             TabLabel = New("TextLabel", {
                 BackgroundTransparency = 1,
-                Position = UDim2.fromOffset(10, 0),
-                Size = UDim2.new(1, -10, 1, 0),
-                Text = "  " .. Name,
+                Position = UDim2.fromOffset(IconOffset, 0),
+                Size = UDim2.new(1, -IconOffset, 1, 0),
+                Text = (Icon and "" or "  ") .. Name,
                 TextColor3 = "TextMuted",
                 TextSize = 13,
                 TextXAlignment = Enum.TextXAlignment.Left,
@@ -7701,11 +7703,12 @@ function Library:CreateWindow(WindowInfo)
                 Parent = TabButton,
             }))
 
+            local IconOffset = Icon and 28 or 10
             TabLabel = New("TextLabel", {
                 BackgroundTransparency = 1,
-                Position = UDim2.fromOffset(10, 0),
-                Size = UDim2.new(1, -10, 1, 0),
-                Text = "  " .. Name,
+                Position = UDim2.fromOffset(IconOffset, 0),
+                Size = UDim2.new(1, -IconOffset, 1, 0),
+                Text = (Icon and "" or "  ") .. Name,
                 TextColor3 = "TextMuted",
                 TextSize = 13,
                 TextXAlignment = Enum.TextXAlignment.Left,
@@ -7741,9 +7744,9 @@ function Library:CreateWindow(WindowInfo)
 
             TabLabel = New("TextLabel", {
                 BackgroundTransparency = 1,
-                Position = UDim2.fromOffset(10, 0),
-                Size = UDim2.new(1, -10, 1, 0),
-                Text = "  " .. Name,
+                Position = UDim2.fromOffset(IconOffset, 0),
+                Size = UDim2.new(1, -IconOffset, 1, 0),
+                Text = (Icon and "" or "  ") .. Name,
                 TextColor3 = "TextMuted",
                 TextSize = 13,
                 TextXAlignment = Enum.TextXAlignment.Left,
