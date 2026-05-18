@@ -4624,9 +4624,9 @@ do
         })
 
         local DisplayContainer = New("TextButton", {
-            BackgroundColor3 = "BackgroundColor",
-            Position = UDim2.new(1, -115, 0.5, -10),
-            Size = UDim2.fromOffset(110, 20),
+            BackgroundColor3 = "MainColor",
+            Position = UDim2.new(1, -115, 0.5, -13),
+            Size = UDim2.fromOffset(110, 26),
             Text = "",
             TextTransparency = 1,
             Parent = Holder,
@@ -4665,7 +4665,7 @@ do
             BackgroundTransparency = 1,
             Size = UDim2.new(1, 0, 0, 21),
             Text = "---",
-            TextSize = 14,
+            TextSize = 12,
             TextXAlignment = Enum.TextXAlignment.Left,
             ZIndex = 2,
             Parent = DisplayContainer,
@@ -4693,7 +4693,7 @@ do
                 PlaceholderText = "Search...",
                 Position = UDim2.fromOffset(-8, 0),
                 Size = UDim2.new(1, -12, 1, 0),
-                TextSize = 14,
+                TextSize = 12,
                 TextXAlignment = Enum.TextXAlignment.Left,
                 Visible = false,
                 Parent = DisplayButton,
@@ -6025,7 +6025,7 @@ function Library:Notify(...)
 
     local Holder = New("Frame", {
         AutomaticSize = Enum.AutomaticSize.Y,
-        BackgroundColor3 = "MainColor",
+        BackgroundColor3 = "NotificationBg",
         Position = Library.NotifySide:lower() == "left" and UDim2.new(-1, -8, 0, -2) or UDim2.new(1, 8, 0, -2),
         Size = UDim2.fromScale(1, 1),
         ZIndex = 5,
@@ -6034,7 +6034,7 @@ function Library:Notify(...)
     table.insert(
         Library.Corners,
         New("UICorner", {
-            CornerRadius = UDim.new(0, Library.CornerRadius),
+            CornerRadius = UDim.new(0, 8),
             Parent = Holder,
         })
     )
@@ -6049,7 +6049,11 @@ function Library:Notify(...)
         PaddingTop = UDim.new(0, 8),
         Parent = Holder,
     })
-    Library:AddOutline(Holder)
+    New("UIStroke", {
+        Color = "AccentColor",
+        Thickness = 1,
+        Parent = Holder,
+    })
 
     local ContentContainer = New("Frame", {
         BackgroundTransparency = 1,
@@ -6482,7 +6486,8 @@ function Library:CreateWindow(WindowInfo)
             BackgroundTransparency = 1,
             Size = UDim2.new(0, X, 1, 0),
             Text = WindowInfo.Title,
-            TextSize = 20,
+            Font = Font.fromEnum(Enum.Font.GothamSemibold),
+            TextSize = 14,
             Parent = TitleHolder,
         })
 
@@ -6705,8 +6710,8 @@ function Library:CreateWindow(WindowInfo)
         })
         New("UIPadding", {
             PaddingBottom = UDim.new(0, 0),
-            PaddingLeft = UDim.new(0, 6),
-            PaddingRight = UDim.new(0, 6),
+            PaddingLeft = UDim.new(0, 10),
+            PaddingRight = UDim.new(0, 10),
             PaddingTop = UDim.new(0, 0),
             Parent = Container,
         })
@@ -6905,7 +6910,7 @@ function Library:CreateWindow(WindowInfo)
                 BackgroundColor3 = "AccentColor",
                 Size = UDim2.new(0, 2, 1, -8),
                 Position = UDim2.fromOffset(0, 4),
-                BorderSize = 0,
+                BorderSizePixel = 0,
                 Visible = false,
                 Parent = TabButton,
             })
@@ -6929,20 +6934,20 @@ function Library:CreateWindow(WindowInfo)
                 AutomaticCanvasSize = Enum.AutomaticSize.Y,
                 BackgroundTransparency = 1,
                 CanvasSize = UDim2.fromScale(0, 0),
-                ScrollBarImageTransparency = 1,
-                ScrollBarThickness = 0,
+                ScrollBarImageColor3 = "AccentColor",
+                ScrollBarThickness = 4,
                 Size = UDim2.new(0.5, -3, 1, 0),
                 Parent = TabContainer,
             })
             New("UIListLayout", {
-                Padding = UDim.new(0, 2),
+                Padding = UDim.new(0, 8),
                 Parent = TabLeft,
             })
             New("UIPadding", {
-                PaddingBottom = UDim.new(0, 2),
-                PaddingLeft = UDim.new(0, 2),
-                PaddingRight = UDim.new(0, 2),
-                PaddingTop = UDim.new(0, 2),
+                PaddingBottom = UDim.new(0, 5),
+                PaddingLeft = UDim.new(0, 5),
+                PaddingRight = UDim.new(0, 5),
+                PaddingTop = UDim.new(0, 5),
                 Parent = TabLeft,
             })
             do
@@ -6964,20 +6969,20 @@ function Library:CreateWindow(WindowInfo)
                 BackgroundTransparency = 1,
                 CanvasSize = UDim2.fromScale(0, 0),
                 Position = UDim2.fromScale(1, 0),
-                ScrollBarImageTransparency = 1,
-                ScrollBarThickness = 0,
+                ScrollBarImageColor3 = "AccentColor",
+                ScrollBarThickness = 4,
                 Size = UDim2.new(0.5, -3, 1, 0),
                 Parent = TabContainer,
             })
             New("UIListLayout", {
-                Padding = UDim.new(0, 2),
+                Padding = UDim.new(0, 8),
                 Parent = TabRight,
             })
             New("UIPadding", {
-                PaddingBottom = UDim.new(0, 2),
-                PaddingLeft = UDim.new(0, 2),
-                PaddingRight = UDim.new(0, 2),
-                PaddingTop = UDim.new(0, 2),
+                PaddingBottom = UDim.new(0, 5),
+                PaddingLeft = UDim.new(0, 5),
+                PaddingRight = UDim.new(0, 5),
+                PaddingTop = UDim.new(0, 5),
                 Parent = TabRight,
             })
             do
@@ -7767,7 +7772,7 @@ function Library:CreateWindow(WindowInfo)
                 BackgroundColor3 = "AccentColor",
                 Size = UDim2.new(0, 2, 1, -8),
                 Position = UDim2.fromOffset(0, 4),
-                BorderSize = 0,
+                BorderSizePixel = 0,
                 Visible = false,
                 Parent = TabButton,
             })
