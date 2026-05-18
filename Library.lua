@@ -6360,7 +6360,7 @@ function Library:CreateWindow(WindowInfo)
     local BottomBackground
     local FooterLabel
 
-    local InitialLeftWidth = math.ceil(WindowInfo.Size.X.Offset * 0.3)
+    local InitialLeftWidth = math.ceil(WindowInfo.Size.X.Offset * 0.22)
     local IsCompact = WindowInfo.SidebarCompacted
     local LastExpandedWidth = InitialLeftWidth
 
@@ -6371,9 +6371,7 @@ function Library:CreateWindow(WindowInfo)
         Library.KeybindFrame.Visible = false
 
         MainFrame = New("TextButton", {
-            BackgroundColor3 = function()
-                return Library:GetBetterColor(Library.Scheme.BackgroundColor, -1)
-            end,
+            BackgroundColor3 = "BackgroundColor",
             Name = "Main",
             Text = "",
             Position = WindowInfo.Position,
@@ -6396,7 +6394,7 @@ function Library:CreateWindow(WindowInfo)
         )
         Library:AddOutline(MainFrame)
         Library:MakeLine(MainFrame, {
-            Position = UDim2.fromOffset(0, 48),
+            Position = UDim2.fromOffset(0, 40),
             Size = UDim2.new(1, 0, 0, 1),
         })
 
@@ -6434,8 +6432,8 @@ function Library:CreateWindow(WindowInfo)
 
         --// Top Bar \\-
         local TopBar = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 48),
+            BackgroundColor3 = "SidebarColor",
+            Size = UDim2.new(1, 0, 0, 40),
             Parent = MainFrame,
         })
         Library:MakeDraggable(MainFrame, TopBar, false, true)
@@ -6616,9 +6614,7 @@ function Library:CreateWindow(WindowInfo)
         --// Bottom Bar \\--
         BottomBackground = New("Frame", {
             AnchorPoint = Vector2.new(0, 1),
-            BackgroundColor3 = function()
-                return Library:GetBetterColor(Library.Scheme.BackgroundColor, 4)
-            end,
+            BackgroundColor3 = "BackgroundColor",
             Position = UDim2.fromScale(0, 1),
             Size = UDim2.new(1, 0, 0, 20 + WindowInfo.CornerRadius),
             Parent = MainFrame
@@ -6687,11 +6683,11 @@ function Library:CreateWindow(WindowInfo)
         --// Tabs \\--
         Tabs = New("ScrollingFrame", {
             AutomaticCanvasSize = Enum.AutomaticSize.Y,
-            BackgroundColor3 = "BackgroundColor",
+            BackgroundColor3 = "SidebarColor",
             CanvasSize = UDim2.fromScale(0, 0),
-            Position = UDim2.fromOffset(0, 49),
+            Position = UDim2.fromOffset(0, 41),
             ScrollBarThickness = 0,
-            Size = UDim2.new(0, InitialLeftWidth, 1, -70),
+            Size = UDim2.new(0, InitialLeftWidth, 1, -62),
             Parent = MainFrame,
         })
         New("UIListLayout", {
@@ -6701,12 +6697,10 @@ function Library:CreateWindow(WindowInfo)
         --// Container \\--
         Container = New("Frame", {
             AnchorPoint = Vector2.new(1, 0),
-            BackgroundColor3 = function()
-                return Library:GetBetterColor(Library.Scheme.BackgroundColor, 1)
-            end,
+            BackgroundColor3 = "BackgroundColor",
             Name = "Container",
-            Position = UDim2.new(1, 0, 0, 49),
-            Size = UDim2.new(1, -InitialLeftWidth - 1, 1, -70),
+            Position = UDim2.new(1, 0, 0, 41),
+            Size = UDim2.new(1, -InitialLeftWidth - 1, 1, -62),
             Parent = MainFrame,
         })
         New("UIPadding", {
@@ -6871,26 +6865,22 @@ function Library:CreateWindow(WindowInfo)
         Icon = Library:GetCustomIcon(Icon)
         do
             TabButton = New("TextButton", {
-                BackgroundColor3 = "MainColor",
-                BackgroundTransparency = 1,
-                Size = UDim2.new(1, 0, 0, 40),
+                BackgroundColor3 = "SidebarColor",
+                Size = UDim2.new(1, 0, 0, 32),
                 Text = "",
                 Parent = Tabs,
             })
             local ButtonPadding = New("UIPadding", {
-                PaddingBottom = UDim.new(0, IsCompact and 6 or 11),
-                PaddingLeft = UDim.new(0, IsCompact and 6 or 12),
-                PaddingRight = UDim.new(0, IsCompact and 6 or 12),
-                PaddingTop = UDim.new(0, IsCompact and 6 or 11),
+                PaddingLeft = UDim.new(0, IsCompact and 4 or 14),
+                PaddingRight = UDim.new(0, IsCompact and 4 or 14),
                 Parent = TabButton,
             })
 
             TabLabel = New("TextLabel", {
                 BackgroundTransparency = 1,
-                Position = UDim2.fromOffset(30, 0),
-                Size = UDim2.new(1, -30, 1, 0),
+                Size = UDim2.new(1, -28, 1, 0),
                 Text = Name,
-                TextSize = 16,
+                TextSize = 14,
                 TextTransparency = 0.5,
                 TextXAlignment = Enum.TextXAlignment.Left,
                 Visible = not IsCompact,
@@ -6905,16 +6895,26 @@ function Library:CreateWindow(WindowInfo)
                     ImageRectSize = Icon.ImageRectSize,
                     ImageTransparency = 0.5,
                     ScaleType = Enum.ScaleType.Fit,
-                    Size = UDim2.fromScale(1, 1),
-                    SizeConstraint = IsCompact and Enum.SizeConstraint.RelativeXY or Enum.SizeConstraint.RelativeYY,
+                    Size = UDim2.new(1, 0, 1, 0),
+                    SizeConstraint = Enum.SizeConstraint.RelativeYY,
                     Parent = TabButton,
                 })
             end
+
+            local TabIndicator = New("Frame", {
+                BackgroundColor3 = "AccentColor",
+                Size = UDim2.new(0, 2, 1, -8),
+                Position = UDim2.fromOffset(0, 4),
+                BorderSize = 0,
+                Visible = false,
+                Parent = TabButton,
+            })
 
             table.insert(Library.TabButtons, {
                 Label = TabLabel,
                 Padding = ButtonPadding,
                 Icon = TabIcon,
+                Indicator = TabIndicator,
             })
 
             --// Tab Container \\--
@@ -7630,9 +7630,9 @@ function Library:CreateWindow(WindowInfo)
                 Library.ActiveTab:Hide()
             end
 
-            TweenService:Create(TabButton, Library.TweenInfo, {
-                BackgroundTransparency = 0,
-            }):Play()
+            if TabIndicator then
+                TabIndicator.Visible = true
+            end
             TweenService:Create(TabLabel, Library.TweenInfo, {
                 TextTransparency = 0,
             }):Play()
@@ -7657,9 +7657,9 @@ function Library:CreateWindow(WindowInfo)
         end
 
         function Tab:Hide()
-            TweenService:Create(TabButton, Library.TweenInfo, {
-                BackgroundTransparency = 1,
-            }):Play()
+            if TabIndicator then
+                TabIndicator.Visible = false
+            end
             TweenService:Create(TabLabel, Library.TweenInfo, {
                 TextTransparency = 0.5,
             }):Play()
@@ -7729,10 +7729,54 @@ function Library:CreateWindow(WindowInfo)
         do
             TabButton = New("TextButton", {
                 BackgroundColor3 = "MainColor",
-                BackgroundTransparency = 1,
-                Size = UDim2.new(1, 0, 0, 40),
+                Size = UDim2.new(1, 0, 0, 32),
                 Text = "",
-                Parent = Tabs,
+                Parent = TaboxTabList,
+            })
+            local ButtonPadding = New("UIPadding", {
+                PaddingLeft = UDim.new(0, IsCompact and 4 or 14),
+                PaddingRight = UDim.new(0, IsCompact and 4 or 14),
+                Parent = TabButton,
+            })
+
+            TabLabel = New("TextLabel", {
+                BackgroundTransparency = 1,
+                Size = UDim2.new(1, -28, 1, 0),
+                Text = Name,
+                TextSize = 14,
+                TextTransparency = 0.5,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                Visible = not IsCompact,
+                Parent = TabButton,
+            })
+
+            if Icon then
+                TabIcon = New("ImageLabel", {
+                    Image = Icon.Url,
+                    ImageColor3 = Icon.Custom and "WhiteColor" or "AccentColor",
+                    ImageRectOffset = Icon.ImageRectOffset,
+                    ImageRectSize = Icon.ImageRectSize,
+                    ImageTransparency = 0.5,
+                    Size = UDim2.new(1, 0, 1, 0),
+                    SizeConstraint = Enum.SizeConstraint.RelativeYY,
+                    Parent = TabButton,
+                })
+            end
+
+            local TabIndicator = New("Frame", {
+                BackgroundColor3 = "AccentColor",
+                Size = UDim2.new(0, 2, 1, -8),
+                Position = UDim2.fromOffset(0, 4),
+                BorderSize = 0,
+                Visible = false,
+                Parent = TabButton,
+            })
+
+            table.insert(Library.TabButtons, {
+                Label = TabLabel,
+                Padding = ButtonPadding,
+                Icon = TabIcon,
+                Indicator = TabIndicator,
             })
             local ButtonPadding = New("UIPadding", {
                 PaddingBottom = UDim.new(0, IsCompact and 6 or 11),
@@ -8691,9 +8735,7 @@ function Library:CreateLoading(LoadingInfo)
     local MainFrame = New("TextButton", {
         Name = "Main",
         AnchorPoint = Vector2.new(0.5, 0.5),
-        BackgroundColor3 = function()
-            return Library:GetBetterColor(Library.Scheme.BackgroundColor, -1)
-        end,
+        BackgroundColor3 = "BackgroundColor",
         Position = UDim2.fromScale(0.5, 0.5),
         Size = UDim2.fromOffset(Loading.ShowSidebar and (Loading.ContentWidth + Loading.SidebarWidth) or Loading.WindowWidth, Loading.WindowHeight),
         ClipsDescendants = true,
