@@ -3535,9 +3535,12 @@ do
             Type = "Button",
         }
 
-        local Holder = New("Frame", {
+        local Holder = New("TextButton", {
+            Active = not Button.Disabled,
+            AutoButtonColor = false,
             BackgroundColor3 = "MainColor",
             Size = UDim2.new(1, 0, 0, 40),
+            Text = "",
             Parent = Container,
         })
         New("UICorner", {
@@ -3551,7 +3554,7 @@ do
 
         local Label = New("TextLabel", {
             BackgroundTransparency = 1,
-            Size = UDim2.new(1, -100, 1, 0),
+            Size = UDim2.new(1, -20, 1, 0),
             Position = UDim2.fromOffset(15, 0),
             Text = Button.Text,
             TextSize = 13,
@@ -3559,40 +3562,11 @@ do
             Parent = Holder,
         })
 
-        local ActionBtn = New("TextButton", {
-            Active = not Button.Disabled,
-            BackgroundColor3 = "AccentColor",
-            Size = UDim2.fromOffset(80, 26),
-            Position = UDim2.new(1, -90, 0.5, -13),
-            Text = "Execute",
-            TextSize = 12,
-            TextColor3 = "WhiteColor",
-            Visible = Button.Visible,
-            Parent = Holder,
-        })
-        New("UICorner", {
-            CornerRadius = UDim.new(0, 4),
-            Parent = ActionBtn,
-        })
-
         local function InitEvents(Button)
-            local OriginalSize = UDim2.fromOffset(80, 26)
-
             Button.Base.MouseButton1Click:Connect(function()
                 if Button.Disabled or Button.Locked then
                     return
                 end
-
-                TweenService:Create(Button.Base, TweenInfo.new(0.1), {
-                    Size = UDim2.fromOffset(75, 24),
-                }):Play()
-                task.delay(0.1, function()
-                    if Button.Base and Button.Base.Parent then
-                        TweenService:Create(Button.Base, TweenInfo.new(0.1), {
-                            Size = OriginalSize,
-                        }):Play()
-                    end
-                end)
 
                 if Button.DoubleClick then
                     Button.Locked = true
@@ -3611,7 +3585,7 @@ do
             end)
         end
 
-        Button.Base = ActionBtn
+        Button.Base = Holder
         InitEvents(Button)
 
         function Button:AddButton(...)
@@ -3697,8 +3671,8 @@ do
 
         function Button:UpdateColors()
             if Library.Unloaded then return end
-            ActionBtn.BackgroundColor3 = Button.Disabled and Library.Scheme.MainColor or Library.Scheme.AccentColor
-            Library.Registry[ActionBtn].BackgroundColor3 = Button.Disabled and "MainColor" or "AccentColor"
+            Holder.BackgroundColor3 = Button.Disabled and Library.Scheme.MainColor or Library.Scheme.AccentColor
+            Library.Registry[Holder].BackgroundColor3 = Button.Disabled and "MainColor" or "AccentColor"
         end
 
         function Button:SetDisabled(Disabled: boolean)
@@ -3706,7 +3680,7 @@ do
             if Button.TooltipTable then
                 Button.TooltipTable.Disabled = Button.Disabled
             end
-            ActionBtn.Active = not Button.Disabled
+            Holder.Active = not Button.Disabled
             Button:UpdateColors()
         end
 
@@ -3718,17 +3692,17 @@ do
 
         function Button:SetText(Text: string)
             Button.Text = Text
-            ActionBtn.Text = Text
+            Label.Text = Text
         end
 
         if typeof(Button.Tooltip) == "string" or typeof(Button.DisabledTooltip) == "string" then
-            Button.TooltipTable = Library:AddTooltip(Button.Tooltip, Button.DisabledTooltip, ActionBtn)
+            Button.TooltipTable = Library:AddTooltip(Button.Tooltip, Button.DisabledTooltip, Holder)
             Button.TooltipTable.Disabled = Button.Disabled
         end
 
         if Button.Risky then
-            ActionBtn.BackgroundColor3 = Library.Scheme.RedColor
-            Library.Registry[ActionBtn].BackgroundColor3 = "RedColor"
+            Holder.BackgroundColor3 = Library.Scheme.RedColor
+            Library.Registry[Holder].BackgroundColor3 = "RedColor"
         end
 
         Button:UpdateColors()
@@ -4016,9 +3990,8 @@ do
         })
 
         local Switch = New("Frame", {
-            AnchorPoint = Vector2.new(0.5, 0.5),
             BackgroundColor3 = "OutlineColor",
-            Position = UDim2.fromScale(1, 0.5),
+            Position = UDim2.new(1, -50, 0.5, -10),
             Size = UDim2.fromOffset(36, 20),
             Parent = Button,
         })
@@ -4028,9 +4001,8 @@ do
         })
 
         local Knob = New("Frame", {
-            AnchorPoint = Vector2.new(0.5, 0.5),
             BackgroundColor3 = "WhiteColor",
-            Position = UDim2.fromOffset(10, 0),
+            Position = UDim2.new(0, 3, 0.5, -7),
             Size = UDim2.fromOffset(14, 14),
             Parent = Switch,
         })
@@ -4049,7 +4021,7 @@ do
             end
 
             local TargetColor = Toggle.Value and Library.Scheme.AccentColor or Library.Scheme.OutlineColor
-            local TargetPos = Toggle.Value and UDim2.fromOffset(26, 0) or UDim2.fromOffset(10, 0)
+            local TargetPos = Toggle.Value and UDim2.new(1, -17, 0.5, -7) or UDim2.new(0, 3, 0.5, -7)
 
             Switch.BackgroundTransparency = Toggle.Disabled and 0.5 or 0
 
@@ -4234,6 +4206,13 @@ do
 
         New("UICorner", {
             CornerRadius = UDim.new(0, 4),
+            Parent = Box,
+        })
+        New("UIPadding", {
+            PaddingBottom = UDim.new(0, 4),
+            PaddingLeft = UDim.new(0, 6),
+            PaddingRight = UDim.new(0, 6),
+            PaddingTop = UDim.new(0, 4),
             Parent = Box,
         })
         New("UIStroke", {
@@ -6883,6 +6862,7 @@ function Library:CreateWindow(WindowInfo)
 
             TabLabel = New("TextLabel", {
                 BackgroundTransparency = 1,
+                Position = UDim2.fromOffset(28, 0),
                 Size = UDim2.new(1, -28, 1, 0),
                 Text = Name,
                 TextSize = 14,
@@ -6900,8 +6880,8 @@ function Library:CreateWindow(WindowInfo)
                     ImageRectSize = Icon.ImageRectSize,
                     ImageTransparency = 0.5,
                     ScaleType = Enum.ScaleType.Fit,
-                    Size = UDim2.new(1, 0, 1, 0),
-                    SizeConstraint = Enum.SizeConstraint.RelativeYY,
+                    Size = UDim2.fromOffset(16, 16),
+                    Position = UDim2.fromOffset(8, 8),
                     Parent = TabButton,
                 })
             end
@@ -7746,6 +7726,7 @@ function Library:CreateWindow(WindowInfo)
 
             TabLabel = New("TextLabel", {
                 BackgroundTransparency = 1,
+                Position = UDim2.fromOffset(28, 0),
                 Size = UDim2.new(1, -28, 1, 0),
                 Text = Name,
                 TextSize = 14,
@@ -7762,8 +7743,9 @@ function Library:CreateWindow(WindowInfo)
                     ImageRectOffset = Icon.ImageRectOffset,
                     ImageRectSize = Icon.ImageRectSize,
                     ImageTransparency = 0.5,
-                    Size = UDim2.new(1, 0, 1, 0),
-                    SizeConstraint = Enum.SizeConstraint.RelativeYY,
+                    ScaleType = Enum.ScaleType.Fit,
+                    Size = UDim2.fromOffset(16, 16),
+                    Position = UDim2.fromOffset(8, 8),
                     Parent = TabButton,
                 })
             end
