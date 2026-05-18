@@ -6380,6 +6380,12 @@ function Library:CreateWindow(WindowInfo)
             Thickness = 1,
             Parent = MainFrame,
         })
+        New("UIStroke", {
+            Color = "AccentColor",
+            Thickness = 2,
+            Transparency = 0.9,
+            Parent = MainFrame,
+        })
 
         if WindowInfo.BackgroundImage then
             BackgroundImage = New("ImageLabel", {
@@ -6408,11 +6414,17 @@ function Library:CreateWindow(WindowInfo)
 
         --// Top Bar \\-
         local TopBar = New("Frame", {
-            BackgroundColor3 = "SidebarColor",
-            Size = UDim2.new(1, 0, 0, 40),
+            BackgroundColor3 = "BackgroundColor",
+            BackgroundTransparency = 0.15,
+            Size = UDim2.new(1, 0, 0, 50),
             Parent = MainFrame,
         })
         Library:MakeDraggable(MainFrame, TopBar, false, true)
+        Library:MakeLine(TopBar, {
+            AnchorPoint = Vector2.new(0, 1),
+            Position = UDim2.fromScale(0, 1),
+            Size = UDim2.new(1, 0, 0, 1),
+        })
 
         --// Title
         TitleHolder = New("Frame", {
@@ -6652,14 +6664,22 @@ function Library:CreateWindow(WindowInfo)
             Parent = ResizeButton,
         })
 
+        --// Vertical Divider \\--
+        local DividerLine = New("Frame", {
+            BackgroundColor3 = "OutlineColor",
+            Position = UDim2.fromOffset(InitialLeftWidth, 50),
+            Size = UDim2.new(0, 1, 1, -70),
+            Parent = MainFrame,
+        })
+
         --// Tabs \\--
         Tabs = New("ScrollingFrame", {
             AutomaticCanvasSize = Enum.AutomaticSize.Y,
             BackgroundColor3 = "SidebarColor",
             CanvasSize = UDim2.fromScale(0, 0),
-            Position = UDim2.fromOffset(0, 40),
+            Position = UDim2.fromOffset(0, 50),
             ScrollBarThickness = 0,
-            Size = UDim2.new(0, InitialLeftWidth, 1, -40),
+            Size = UDim2.new(0, InitialLeftWidth, 1, -70),
             Parent = MainFrame,
         })
         New("UIListLayout", {
@@ -6678,8 +6698,8 @@ function Library:CreateWindow(WindowInfo)
             AnchorPoint = Vector2.new(1, 0),
             BackgroundTransparency = 1,
             Name = "Container",
-            Position = UDim2.new(1, 0, 0, 40),
-            Size = UDim2.new(1, -InitialLeftWidth, 1, -60),
+            Position = UDim2.new(1, 0, 0, 50),
+            Size = UDim2.new(1, -InitialLeftWidth - 1, 1, -70),
             Parent = MainFrame,
         })
         New("UIPadding", {
@@ -6782,10 +6802,12 @@ function Library:CreateWindow(WindowInfo)
     function Window:SetSidebarWidth(Width)
         Width = math.clamp(Width, 48, MainFrame.Size.X.Offset - WindowInfo.MinContainerWidth - 1)
 
+        DividerLine.Position = UDim2.fromOffset(Width, 50)
+        DividerLine.Size = UDim2.new(0, 1, 1, -70)
         TitleHolder.Size = UDim2.new(0, Width, 1, 0)
         RightWrapper.Size = UDim2.new(1, -Width - 57 - 1, 1, -16)
-        Tabs.Size = UDim2.new(0, Width, 1, -40)
-        Container.Size = UDim2.new(1, -Width, 1, -60)
+        Tabs.Size = UDim2.new(0, Width, 1, -70)
+        Container.Size = UDim2.new(1, -Width - 1, 1, -70)
 
         if WindowInfo.EnableCompacting then
             ApplyCompact()
