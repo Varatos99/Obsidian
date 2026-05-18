@@ -4604,8 +4604,8 @@ do
 
         local DisplayContainer = New("TextButton", {
             BackgroundColor3 = "MainColor",
-            Position = UDim2.new(1, -115, 0.5, -13),
-            Size = UDim2.fromOffset(110, 26),
+            Position = UDim2.new(1, -105, 0.5, -11),
+            Size = UDim2.fromOffset(100, 22),
             Text = "",
             TextTransparency = 1,
             Parent = Holder,
@@ -4632,7 +4632,7 @@ do
         local DisplayImage = New("ImageLabel", {
             BackgroundTransparency = 1,
             Position = UDim2.fromOffset(-4, 3),
-            Size = UDim2.fromOffset(16, 16),
+            Size = UDim2.fromOffset(14, 14),
             Image = "",
             ImageTransparency = 1,
             ZIndex = 2,
@@ -4642,10 +4642,10 @@ do
         local DisplayButton = New("TextButton", {
             Active = not Dropdown.Disabled,
             BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 21),
+            Size = UDim2.new(1, 0, 0, 22),
             Text = "---",
             TextSize = 12,
-            TextXAlignment = Enum.TextXAlignment.Left,
+            TextXAlignment = Enum.TextXAlignment.Center,
             ZIndex = 2,
             Parent = DisplayContainer,
         })
