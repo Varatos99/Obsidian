@@ -3401,7 +3401,7 @@ do
 
         local TextLabel = New("TextLabel", {
             BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 25),
+            Size = UDim2.new(1, 0, 0, 18),
             Text = Label.Text,
             TextSize = Data.Size or 12,
             TextColor3 = Library.Scheme.TextMuted,
@@ -3540,7 +3540,7 @@ do
             Active = not Button.Disabled,
             AutoButtonColor = false,
             BackgroundColor3 = "MainColor",
-            Size = UDim2.new(1, 0, 0, 40),
+            Size = UDim2.new(1, 0, 0, 21),
             Text = "",
             Parent = Container,
         })
@@ -3556,9 +3556,9 @@ do
         local Label = New("TextLabel", {
             BackgroundTransparency = 1,
             Size = UDim2.new(1, -20, 1, 0),
-            Position = UDim2.fromOffset(15, 0),
+            Position = UDim2.fromOffset(10, 0),
             Text = Button.Text,
-            TextSize = 13,
+            TextSize = 12,
             TextXAlignment = Enum.TextXAlignment.Left,
             Parent = Holder,
         })
@@ -3959,7 +3959,7 @@ do
         local Button = New("TextButton", {
             Active = not Toggle.Disabled,
             BackgroundColor3 = "MainColor",
-            Size = UDim2.new(1, 0, 0, 40),
+            Size = UDim2.new(1, 0, 0, 18),
             Text = "",
             Visible = Toggle.Visible,
             Parent = Container,
@@ -3975,10 +3975,10 @@ do
 
         local Label = New("TextLabel", {
             BackgroundTransparency = 1,
-            Size = UDim2.new(1, -60, 1, 0),
-            Position = UDim2.fromOffset(15, 0),
+            Size = UDim2.new(1, -44, 1, 0),
+            Position = UDim2.fromOffset(10, 0),
             Text = Toggle.Text,
-            TextSize = 13,
+            TextSize = 12,
             TextXAlignment = Enum.TextXAlignment.Left,
             Parent = Button,
         })
@@ -3992,8 +3992,8 @@ do
 
         local Switch = New("Frame", {
             BackgroundColor3 = "OutlineColor",
-            Position = UDim2.new(1, -50, 0.5, -10),
-            Size = UDim2.fromOffset(36, 20),
+            Position = UDim2.new(1, -38, 0.5, -8),
+            Size = UDim2.fromOffset(32, 16),
             Parent = Button,
         })
         New("UICorner", {
@@ -4003,8 +4003,8 @@ do
 
         local Knob = New("Frame", {
             BackgroundColor3 = "WhiteColor",
-            Position = UDim2.new(0, 3, 0.5, -7),
-            Size = UDim2.fromOffset(14, 14),
+            Position = UDim2.new(0, 2, 0.5, -6),
+            Size = UDim2.fromOffset(12, 12),
             Parent = Switch,
         })
         New("UICorner", {
@@ -4022,7 +4022,7 @@ do
             end
 
             local TargetColor = Toggle.Value and Library.Scheme.AccentColor or Library.Scheme.OutlineColor
-            local TargetPos = Toggle.Value and UDim2.new(1, -17, 0.5, -7) or UDim2.new(0, 3, 0.5, -7)
+            local TargetPos = Toggle.Value and UDim2.new(1, -18, 0.5, -6) or UDim2.new(0, 2, 0.5, -6)
 
             Switch.BackgroundTransparency = Toggle.Disabled and 0.5 or 0
 
@@ -4169,7 +4169,7 @@ do
 
         local Holder = New("Frame", {
             BackgroundColor3 = "MainColor",
-            Size = UDim2.new(1, 0, 0, 40),
+            Size = UDim2.new(1, 0, 0, 39),
             Visible = Input.Visible,
             Parent = Container,
         })
@@ -4185,9 +4185,9 @@ do
         local Label = New("TextLabel", {
             BackgroundTransparency = 1,
             Size = UDim2.new(1, -120, 1, 0),
-            Position = UDim2.fromOffset(15, 0),
+            Position = UDim2.fromOffset(10, 0),
             Text = Input.Text,
-            TextSize = 13,
+            TextSize = 12,
             TextXAlignment = Enum.TextXAlignment.Left,
             Parent = Holder,
         })
@@ -4196,8 +4196,8 @@ do
             BackgroundColor3 = "BackgroundColor",
             ClearTextOnFocus = not Input.Disabled and Input.ClearTextOnFocus,
             PlaceholderText = Input.Placeholder,
-            Position = UDim2.new(1, -110, 0.5, -13),
-            Size = UDim2.fromOffset(100, 26),
+            Position = UDim2.new(1, -110, 0.5, -10.5),
+            Size = UDim2.fromOffset(100, 21),
             Text = Input.Value,
             TextEditable = not Input.Disabled,
             TextSize = 12,
@@ -4355,7 +4355,7 @@ do
 
         local Holder = New("Frame", {
             BackgroundColor3 = "MainColor",
-            Size = UDim2.new(1, 0, 0, 50),
+            Size = UDim2.new(1, 0, 0, 33),
             Visible = Slider.Visible,
             Parent = Container,
         })
@@ -4370,20 +4370,20 @@ do
 
         local SliderLabel = New("TextLabel", {
             BackgroundTransparency = 1,
-            Size = UDim2.new(1, -50, 0, 25),
-            Position = UDim2.fromOffset(15, 0),
+            Size = UDim2.new(1, -50, 0, 14),
+            Position = UDim2.fromOffset(10, 0),
             Text = Slider.Text,
-            TextSize = 13,
+            TextSize = 12,
             TextXAlignment = Enum.TextXAlignment.Left,
             Parent = Holder,
         })
 
         local ValueLabel = New("TextLabel", {
             BackgroundTransparency = 1,
-            Size = UDim2.fromOffset(40, 25),
+            Size = UDim2.fromOffset(40, 14),
             Position = UDim2.new(1, -50, 0, 0),
             Text = Slider.Prefix .. Slider.Value .. Slider.Suffix,
-            TextSize = 12,
+            TextSize = 11,
             TextColor3 = Library.Scheme.TextMuted,
             TextXAlignment = Enum.TextXAlignment.Right,
             Parent = Holder,
@@ -4391,8 +4391,8 @@ do
 
         local Track = New("Frame", {
             BackgroundColor3 = "OutlineColor",
-            Position = UDim2.fromOffset(15, 32),
-            Size = UDim2.new(1, -30, 0, 4),
+            Position = UDim2.fromOffset(10, 20),
+            Size = UDim2.new(1, -20, 0, 4),
             Parent = Holder,
         })
         New("UICorner", {
