@@ -28,7 +28,7 @@ local Toggles = {}
 local Options = {}
 local Tooltips = {}
 
-local BaseURL = "https://raw.githubusercontent.com/deividcomsono/Obsidian/refs/heads/main/"
+local BaseURL = "https://raw.githubusercontent.com/Varatos99/Obsidian/refs/heads/main/"
 local CustomImageManager = {}
 local CustomImageManagerAssets = {
     TransparencyTexture = {
@@ -190,7 +190,7 @@ local Library = {
 
     ToggleKeybind = Enum.KeyCode.RightControl,
     TweenInfo = TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-    NotifyTweenInfo = TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+    NotifyTweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
 
     Toggled = false,
     Unloaded = false,
@@ -214,22 +214,26 @@ local Library = {
     OriginalMinSize = Vector2.new(480, 360),
     MinSize = Vector2.new(480, 360),
     DPIScale = 1,
-    CornerRadius = 4,
+    CornerRadius = 10,
     CornerRadiusDropdown = false, -- Temporary
 
     IsLightTheme = false,
     Scheme = {
-        BackgroundColor = Color3.fromRGB(15, 15, 15),
-        MainColor = Color3.fromRGB(25, 25, 25),
-        AccentColor = Color3.fromRGB(125, 85, 255),
-        OutlineColor = Color3.fromRGB(40, 40, 40),
+        BackgroundColor = Color3.fromRGB(20, 18, 28),
+        MainColor = Color3.fromRGB(30, 28, 40),
+        AccentColor = Color3.fromRGB(157, 78, 221),
+        Accent2Color = Color3.fromRGB(255, 195, 0),
+        OutlineColor = Color3.fromRGB(45, 40, 55),
         FontColor = Color3.new(1, 1, 1),
-        Font = Font.fromEnum(Enum.Font.Code),
+        TextMuted = Color3.fromRGB(139, 146, 165),
+        Font = Font.fromEnum(Enum.Font.GothamMedium),
 
         RedColor = Color3.fromRGB(255, 50, 50),
         DestructiveColor = Color3.fromRGB(220, 38, 38),
         DarkColor = Color3.new(0, 0, 0),
         WhiteColor = Color3.new(1, 1, 1),
+        NotificationBg = Color3.fromRGB(25, 23, 33),
+        SidebarColor = Color3.fromRGB(15, 13, 20),
     },
 
     Registry = {},
@@ -307,17 +311,17 @@ local Templates = {
         Title = "No Title",
         Footer = "No Footer",
         Position = UDim2.fromOffset(6, 6),
-        Size = UDim2.fromOffset(720, 600),
+        Size = UDim2.fromOffset(650, 500),
         IconSize = UDim2.fromOffset(30, 30),
         AutoShow = true,
         Center = true,
         Resizable = true,
         SearchbarSize = UDim2.fromScale(1, 1),
         GlobalSearch = false,
-        CornerRadius = 4,
+        CornerRadius = 10,
         NotifySide = "Right",
         ShowCustomCursor = true,
-        Font = Enum.Font.Code,
+        Font = Enum.Font.GothamSemibold,
         ToggleKeybind = Enum.KeyCode.RightControl,
         
         ShowMobileButtons = true,
@@ -3396,9 +3400,10 @@ do
 
         local TextLabel = New("TextLabel", {
             BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 18),
+            Size = UDim2.new(1, 0, 0, 25),
             Text = Label.Text,
-            TextSize = Data.Size,
+            TextSize = Data.Size or 12,
+            TextColor3 = Library.Scheme.TextMuted,
             TextWrapped = Label.DoesWrap,
             TextXAlignment = Groupbox.IsKeyTab and Enum.TextXAlignment.Center or Enum.TextXAlignment.Left,
             Parent = Container,
@@ -3531,92 +3536,73 @@ do
         }
 
         local Holder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 21),
+            BackgroundColor3 = "MainColor",
+            Size = UDim2.new(1, 0, 0, 40),
             Parent = Container,
         })
-
-        New("UIListLayout", {
-            FillDirection = Enum.FillDirection.Horizontal,
-            HorizontalFlex = Enum.UIFlexAlignment.Fill,
-            Padding = UDim.new(0, 9),
+        New("UICorner", {
+            CornerRadius = UDim.new(0, 6),
+            Parent = Holder,
+        })
+        New("UIStroke", {
+            Color = "OutlineColor",
             Parent = Holder,
         })
 
-        local function CreateButton(Button)
-            local Base = New("TextButton", {
-                Active = not Button.Disabled,
-                BackgroundColor3 = Button.Disabled and "BackgroundColor" or "MainColor",
-                Size = UDim2.fromScale(1, 1),
-                Text = Button.Text,
-                TextSize = 14,
-                TextTransparency = 0.4,
-                Visible = Button.Visible,
-                Parent = Holder,
-            })
+        local Label = New("TextLabel", {
+            BackgroundTransparency = 1,
+            Size = UDim2.new(1, -100, 1, 0),
+            Position = UDim2.fromOffset(15, 0),
+            Text = Button.Text,
+            TextSize = 13,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            Parent = Holder,
+        })
 
-            local Stroke = New("UIStroke", {
-                Color = "OutlineColor",
-                Transparency = Button.Disabled and 0.5 or 0,
-                Parent = Base,
-            })
-
-            table.insert(
-                Library.Corners,
-                New("UICorner", {
-                    CornerRadius = UDim.new(0, Library.CornerRadius / 2),
-                    Parent = Base,
-                })
-            )
-
-            return Base, Stroke
-        end
+        local ActionBtn = New("TextButton", {
+            Active = not Button.Disabled,
+            BackgroundColor3 = "AccentColor",
+            Size = UDim2.fromOffset(80, 26),
+            Position = UDim2.new(1, -90, 0.5, -13),
+            Text = "Execute",
+            TextSize = 12,
+            TextColor3 = "WhiteColor",
+            Visible = Button.Visible,
+            Parent = Holder,
+        })
+        New("UICorner", {
+            CornerRadius = UDim.new(0, 4),
+            Parent = ActionBtn,
+        })
 
         local function InitEvents(Button)
-            Button.Base.MouseEnter:Connect(function()
-                if Button.Disabled then
-                    return
-                end
-
-                Button.Tween = TweenService:Create(Button.Base, Library.TweenInfo, {
-                    TextTransparency = 0,
-                })
-                Button.Tween:Play()
-            end)
-            Button.Base.MouseLeave:Connect(function()
-                if Button.Disabled then
-                    return
-                end
-
-                Button.Tween = TweenService:Create(Button.Base, Library.TweenInfo, {
-                    TextTransparency = 0.4,
-                })
-                Button.Tween:Play()
-            end)
+            local OriginalSize = UDim2.fromOffset(80, 26)
 
             Button.Base.MouseButton1Click:Connect(function()
                 if Button.Disabled or Button.Locked then
                     return
                 end
 
+                TweenService:Create(Button.Base, TweenInfo.new(0.1), {
+                    Size = UDim2.fromOffset(75, 24),
+                }):Play()
+                task.delay(0.1, function()
+                    if Button.Base and Button.Base.Parent then
+                        TweenService:Create(Button.Base, TweenInfo.new(0.1), {
+                            Size = OriginalSize,
+                        }):Play()
+                    end
+                end)
+
                 if Button.DoubleClick then
                     Button.Locked = true
-
                     Button.Base.Text = "Are you sure?"
-                    Button.Base.TextColor3 = Library.Scheme.AccentColor
-                    Library.Registry[Button.Base].TextColor3 = "AccentColor"
-
                     local Clicked = WaitForEvent(Button.Base.MouseButton1Click, 0.5)
-
                     Button.Base.Text = Button.Text
-                    Button.Base.TextColor3 = Button.Risky and Library.Scheme.RedColor or Library.Scheme.FontColor
-                    Library.Registry[Button.Base].TextColor3 = Button.Risky and "RedColor" or "FontColor"
-
                     if Clicked then
                         Library:SafeCallback(Button.Func)
                     end
-
-                    RunService.RenderStepped:Wait() --// Mouse Button fires without waiting (i hate roblox)
+                    RunService.RenderStepped:Wait()
                     Button.Locked = false
                     return
                 end
@@ -3625,7 +3611,7 @@ do
             end)
         end
 
-        Button.Base, Button.Stroke = CreateButton(Button)
+        Button.Base = ActionBtn
         InitEvents(Button)
 
         function Button:AddButton(...)
@@ -3635,53 +3621,55 @@ do
                 Text = Info.Text,
                 Func = Info.Func,
                 DoubleClick = Info.DoubleClick,
-
                 Tooltip = Info.Tooltip,
                 DisabledTooltip = Info.DisabledTooltip,
                 TooltipTable = nil,
-
                 Risky = Info.Risky,
                 Disabled = Info.Disabled,
                 Visible = Info.Visible,
-
                 Tween = nil,
                 Type = "SubButton",
             }
 
             Button.SubButton = SubButton
-            SubButton.Base, SubButton.Stroke = CreateButton(SubButton)
-            InitEvents(SubButton)
+
+            local SubBtn = New("TextButton", {
+                Active = not SubButton.Disabled,
+                BackgroundColor3 = "AccentColor",
+                Size = UDim2.new(1, 0, 0, 24),
+                Text = SubButton.Text,
+                TextSize = 12,
+                TextColor3 = "WhiteColor",
+                Visible = SubButton.Visible,
+                Parent = Holder,
+            })
+            New("UICorner", {
+                CornerRadius = UDim.new(0, 4),
+                Parent = SubBtn,
+            })
+            New("UIStroke", {
+                Color = "OutlineColor",
+                Parent = SubBtn,
+            })
+            SubButton.Base = SubBtn
+            SubBtn.MouseButton1Click:Connect(function()
+                if SubButton.Disabled then return end
+                Library:SafeCallback(SubButton.Func)
+            end)
 
             function SubButton:UpdateColors()
-                if Library.Unloaded then
-                    return
-                end
-
-                StopTween(SubButton.Tween)
-
-                SubButton.Base.BackgroundColor3 = SubButton.Disabled and Library.Scheme.BackgroundColor
-                    or Library.Scheme.MainColor
-                SubButton.Base.TextTransparency = SubButton.Disabled and 0.8 or 0.4
-                SubButton.Stroke.Transparency = SubButton.Disabled and 0.5 or 0
-
-                Library.Registry[SubButton.Base].BackgroundColor3 = SubButton.Disabled and "BackgroundColor"
-                    or "MainColor"
+                SubButton.Base.BackgroundColor3 = SubButton.Disabled and Library.Scheme.MainColor or Library.Scheme.AccentColor
+                Library.Registry[SubButton.Base].BackgroundColor3 = SubButton.Disabled and "MainColor" or "AccentColor"
             end
 
             function SubButton:SetDisabled(Disabled: boolean)
                 SubButton.Disabled = Disabled
-
-                if SubButton.TooltipTable then
-                    SubButton.TooltipTable.Disabled = SubButton.Disabled
-                end
-
                 SubButton.Base.Active = not SubButton.Disabled
                 SubButton:UpdateColors()
             end
 
             function SubButton:SetVisible(Visible: boolean)
                 SubButton.Visible = Visible
-
                 SubButton.Base.Visible = SubButton.Visible
                 Groupbox:Resize()
             end
@@ -3692,14 +3680,8 @@ do
             end
 
             if typeof(SubButton.Tooltip) == "string" or typeof(SubButton.DisabledTooltip) == "string" then
-                SubButton.TooltipTable =
-                    Library:AddTooltip(SubButton.Tooltip, SubButton.DisabledTooltip, SubButton.Base)
+                SubButton.TooltipTable = Library:AddTooltip(SubButton.Tooltip, SubButton.DisabledTooltip, SubButton.Base)
                 SubButton.TooltipTable.Disabled = SubButton.Disabled
-            end
-
-            if SubButton.Risky then
-                SubButton.Base.TextColor3 = Library.Scheme.RedColor
-                Library.Registry[SubButton.Base].TextColor3 = "RedColor"
             end
 
             SubButton:UpdateColors()
@@ -3714,51 +3696,39 @@ do
         end
 
         function Button:UpdateColors()
-            if Library.Unloaded then
-                return
-            end
-
-            StopTween(Button.Tween)
-
-            Button.Base.BackgroundColor3 = Button.Disabled and Library.Scheme.BackgroundColor
-                or Library.Scheme.MainColor
-            Button.Base.TextTransparency = Button.Disabled and 0.8 or 0.4
-            Button.Stroke.Transparency = Button.Disabled and 0.5 or 0
-
-            Library.Registry[Button.Base].BackgroundColor3 = Button.Disabled and "BackgroundColor" or "MainColor"
+            if Library.Unloaded then return end
+            ActionBtn.BackgroundColor3 = Button.Disabled and Library.Scheme.MainColor or Library.Scheme.AccentColor
+            Library.Registry[ActionBtn].BackgroundColor3 = Button.Disabled and "MainColor" or "AccentColor"
         end
 
         function Button:SetDisabled(Disabled: boolean)
             Button.Disabled = Disabled
-
             if Button.TooltipTable then
                 Button.TooltipTable.Disabled = Button.Disabled
             end
-
-            Button.Base.Active = not Button.Disabled
+            ActionBtn.Active = not Button.Disabled
             Button:UpdateColors()
         end
 
         function Button:SetVisible(Visible: boolean)
             Button.Visible = Visible
-
             Holder.Visible = Button.Visible
             Groupbox:Resize()
         end
 
         function Button:SetText(Text: string)
             Button.Text = Text
-            Button.Base.Text = Text
+            ActionBtn.Text = Text
         end
 
         if typeof(Button.Tooltip) == "string" or typeof(Button.DisabledTooltip) == "string" then
-            Button.TooltipTable = Library:AddTooltip(Button.Tooltip, Button.DisabledTooltip, Button.Base)
+            Button.TooltipTable = Library:AddTooltip(Button.Tooltip, Button.DisabledTooltip, ActionBtn)
             Button.TooltipTable.Disabled = Button.Disabled
         end
 
         if Button.Risky then
-            Button.Base.TextColor3 = Library.Scheme.RedColor
-            Library.Registry[Button.Base].TextColor3 = "RedColor"
+            ActionBtn.BackgroundColor3 = Library.Scheme.RedColor
+            Library.Registry[ActionBtn].BackgroundColor3 = "RedColor"
         end
 
         Button:UpdateColors()
@@ -3979,6 +3949,8 @@ do
         return Toggle
     end
 
+    local ToggleTweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
+
     function Funcs:AddToggle(Idx, Info)
         if Library.ForceCheckbox then
             return Funcs.AddCheckbox(self, Idx, Info)
@@ -4011,19 +3983,27 @@ do
 
         local Button = New("TextButton", {
             Active = not Toggle.Disabled,
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 18),
+            BackgroundColor3 = "MainColor",
+            Size = UDim2.new(1, 0, 0, 40),
             Text = "",
             Visible = Toggle.Visible,
             Parent = Container,
         })
+        New("UICorner", {
+            CornerRadius = UDim.new(0, 6),
+            Parent = Button,
+        })
+        New("UIStroke", {
+            Color = "OutlineColor",
+            Parent = Button,
+        })
 
         local Label = New("TextLabel", {
             BackgroundTransparency = 1,
-            Size = UDim2.new(1, -40, 1, 0),
+            Size = UDim2.new(1, -60, 1, 0),
+            Position = UDim2.fromOffset(15, 0),
             Text = Toggle.Text,
-            TextSize = 14,
-            TextTransparency = 0.4,
+            TextSize = 13,
             TextXAlignment = Enum.TextXAlignment.Left,
             Parent = Button,
         })
@@ -4036,37 +4016,27 @@ do
         })
 
         local Switch = New("Frame", {
-            AnchorPoint = Vector2.new(1, 0),
-            BackgroundColor3 = "MainColor",
-            Position = UDim2.fromScale(1, 0),
-            Size = UDim2.fromOffset(32, 18),
+            AnchorPoint = Vector2.new(0.5, 0.5),
+            BackgroundColor3 = "OutlineColor",
+            Position = UDim2.fromScale(1, 0.5),
+            Size = UDim2.fromOffset(36, 20),
             Parent = Button,
         })
         New("UICorner", {
             CornerRadius = UDim.new(1, 0),
             Parent = Switch,
         })
-        New("UIPadding", {
-            PaddingBottom = UDim.new(0, 2),
-            PaddingLeft = UDim.new(0, 2),
-            PaddingRight = UDim.new(0, 2),
-            PaddingTop = UDim.new(0, 2),
-            Parent = Switch,
-        })
-        local SwitchStroke = New("UIStroke", {
-            Color = "OutlineColor",
-            Parent = Switch,
-        })
 
-        local Ball = New("Frame", {
-            BackgroundColor3 = "FontColor",
-            Size = UDim2.fromScale(1, 1),
-            SizeConstraint = Enum.SizeConstraint.RelativeYY,
+        local Knob = New("Frame", {
+            AnchorPoint = Vector2.new(0.5, 0.5),
+            BackgroundColor3 = "WhiteColor",
+            Position = UDim2.fromOffset(10, 0),
+            Size = UDim2.fromOffset(14, 14),
             Parent = Switch,
         })
         New("UICorner", {
             CornerRadius = UDim.new(1, 0),
-            Parent = Ball,
+            Parent = Knob,
         })
 
         function Toggle:UpdateColors()
@@ -4078,40 +4048,26 @@ do
                 return
             end
 
-            local Offset = Toggle.Value and 1 or 0
+            local TargetColor = Toggle.Value and Library.Scheme.AccentColor or Library.Scheme.OutlineColor
+            local TargetPos = Toggle.Value and UDim2.fromOffset(26, 0) or UDim2.fromOffset(10, 0)
 
-            Switch.BackgroundTransparency = Toggle.Disabled and 0.75 or 0
-            SwitchStroke.Transparency = Toggle.Disabled and 0.75 or 0
-
-            Switch.BackgroundColor3 = Toggle.Value and Library.Scheme.AccentColor or Library.Scheme.MainColor
-            SwitchStroke.Color = Toggle.Value and Library.Scheme.AccentColor or Library.Scheme.OutlineColor
-
-            Library.Registry[Switch].BackgroundColor3 = Toggle.Value and "AccentColor" or "MainColor"
-            Library.Registry[SwitchStroke].Color = Toggle.Value and "AccentColor" or "OutlineColor"
+            Switch.BackgroundTransparency = Toggle.Disabled and 0.5 or 0
 
             if Toggle.Disabled then
-                Label.TextTransparency = 0.8
-                Ball.AnchorPoint = Vector2.new(Offset, 0)
-                Ball.Position = UDim2.fromScale(Offset, 0)
-
-                Ball.BackgroundColor3 = Library:GetDarkerColor(Library.Scheme.FontColor)
-                Library.Registry[Ball].BackgroundColor3 = function()
-                    return Library:GetDarkerColor(Library.Scheme.FontColor)
-                end
-
+                Switch.BackgroundColor3 = TargetColor
+                Knob.Position = TargetPos
                 return
             end
 
-            TweenService:Create(Label, Library.TweenInfo, {
-                TextTransparency = Toggle.Value and 0 or 0.4,
+            TweenService:Create(Switch, ToggleTweenInfo, {
+                BackgroundColor3 = TargetColor,
             }):Play()
-            TweenService:Create(Ball, Library.TweenInfo, {
-                AnchorPoint = Vector2.new(Offset, 0),
-                Position = UDim2.fromScale(Offset, 0),
+            TweenService:Create(Knob, ToggleTweenInfo, {
+                Position = TargetPos,
             }):Play()
 
-            Ball.BackgroundColor3 = Library.Scheme.FontColor
-            Library.Registry[Ball].BackgroundColor3 = "FontColor"
+            Knob.BackgroundColor3 = Library.Scheme.WhiteColor
+            Library.Registry[Knob].BackgroundColor3 = "WhiteColor"
         end
 
         function Toggle:OnChanged(Func)
@@ -4239,63 +4195,53 @@ do
         }
 
         local Holder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 39),
+            BackgroundColor3 = "MainColor",
+            Size = UDim2.new(1, 0, 0, 40),
             Visible = Input.Visible,
             Parent = Container,
+        })
+        New("UICorner", {
+            CornerRadius = UDim.new(0, 6),
+            Parent = Holder,
+        })
+        New("UIStroke", {
+            Color = "OutlineColor",
+            Parent = Holder,
         })
 
         local Label = New("TextLabel", {
             BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 14),
+            Size = UDim2.new(1, -120, 1, 0),
+            Position = UDim2.fromOffset(15, 0),
             Text = Input.Text,
-            TextSize = 14,
+            TextSize = 13,
             TextXAlignment = Enum.TextXAlignment.Left,
             Parent = Holder,
         })
 
         local Box = New("TextBox", {
-            AnchorPoint = Vector2.new(0, 1),
-            BackgroundColor3 = "MainColor",
+            BackgroundColor3 = "BackgroundColor",
             ClearTextOnFocus = not Input.Disabled and Input.ClearTextOnFocus,
             PlaceholderText = Input.Placeholder,
-            Position = UDim2.fromScale(0, 1),
-            Size = UDim2.new(1, 0, 0, 21),
+            Position = UDim2.new(1, -110, 0.5, -13),
+            Size = UDim2.fromOffset(100, 26),
             Text = Input.Value,
             TextEditable = not Input.Disabled,
-            TextScaled = true,
+            TextSize = 12,
             TextXAlignment = Enum.TextXAlignment.Left,
             Parent = Holder,
         })
 
-        New("UIPadding", {
-            PaddingBottom = UDim.new(0, 3),
-            PaddingLeft = UDim.new(0, 8),
-            PaddingRight = UDim.new(0, 8),
-            PaddingTop = UDim.new(0, 4),
+        New("UICorner", {
+            CornerRadius = UDim.new(0, 4),
             Parent = Box,
         })
-
         New("UIStroke", {
             Color = "OutlineColor",
             Parent = Box,
         })
 
-        table.insert(
-            Library.Corners,
-            New("UICorner", {
-                CornerRadius = UDim.new(0, Library.CornerRadius / 2),
-                Parent = Box,
-            })
-        )
-
         function Input:UpdateColors()
-            if Library.Unloaded then
-                return
-            end
-
-            Label.TextTransparency = Input.Disabled and 0.8 or 0
-            Box.TextTransparency = Input.Disabled and 0.8 or 0
         end
 
         function Input:OnChanged(Func)
@@ -4428,123 +4374,87 @@ do
         }
 
         local Holder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, Info.Compact and 15 or 33),
+            BackgroundColor3 = "MainColor",
+            Size = UDim2.new(1, 0, 0, 50),
             Visible = Slider.Visible,
             Parent = Container,
         })
-
-        local SliderLabel
-        if not Info.Compact then
-            SliderLabel = New("TextLabel", {
-                BackgroundTransparency = 1,
-                Size = UDim2.new(1, 0, 0, 14),
-                Text = Slider.Text,
-                TextSize = 14,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                Parent = Holder,
-            })
-        end
-
-        local Bar = New("TextButton", {
-            Active = not Slider.Disabled,
-            AnchorPoint = Vector2.new(0, 1),
-            BackgroundColor3 = "MainColor",
-            Position = UDim2.fromScale(0, 1),
-            Size = UDim2.new(1, 0, 0, 15),
-            Text = "",
+        New("UICorner", {
+            CornerRadius = UDim.new(0, 6),
+            Parent = Holder,
+        })
+        New("UIStroke", {
+            Color = "OutlineColor",
             Parent = Holder,
         })
 
-        New("UIStroke", {
-            Color = "OutlineColor",
-            Parent = Bar,
+        local SliderLabel = New("TextLabel", {
+            BackgroundTransparency = 1,
+            Size = UDim2.new(1, -50, 0, 25),
+            Position = UDim2.fromOffset(15, 0),
+            Text = Slider.Text,
+            TextSize = 13,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            Parent = Holder,
         })
 
-        local DisplayLabel = New("TextLabel", {
+        local ValueLabel = New("TextLabel", {
             BackgroundTransparency = 1,
-            Size = UDim2.fromScale(1, 1),
-            Text = "",
-            TextSize = 14,
-            ZIndex = 2,
-            Parent = Bar,
+            Size = UDim2.fromOffset(40, 25),
+            Position = UDim2.new(1, -50, 0, 0),
+            Text = Slider.Prefix .. Slider.Value .. Slider.Suffix,
+            TextSize = 12,
+            TextColor3 = Library.Scheme.TextMuted,
+            TextXAlignment = Enum.TextXAlignment.Right,
+            Parent = Holder,
         })
-        New("UIStroke", {
-            ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual,
-            Color = "DarkColor",
-            LineJoinMode = Enum.LineJoinMode.Miter,
-            Parent = DisplayLabel,
+
+        local Track = New("Frame", {
+            BackgroundColor3 = "OutlineColor",
+            Position = UDim2.fromOffset(15, 32),
+            Size = UDim2.new(1, -30, 0, 4),
+            Parent = Holder,
+        })
+        New("UICorner", {
+            CornerRadius = UDim.new(1, 0),
+            Parent = Track,
         })
 
         local Fill = New("Frame", {
-            BackgroundColor3 = "AccentColor",
-            Size = UDim2.fromScale(0.5, 1),
-            Parent = Bar,
+            BackgroundColor3 = "WhiteColor",
+            Size = UDim2.fromScale(0, 1),
+            Parent = Track,
+        })
+        New("UICorner", {
+            CornerRadius = UDim.new(1, 0),
+            Parent = Fill,
+        })
+        New("UIGradient", {
+            Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Library.Scheme.AccentColor),
+                ColorSequenceKeypoint.new(1, Library.Scheme.Accent2Color),
+            }),
+            Parent = Fill,
         })
 
-        table.insert(
-            Library.Corners,
-            New("UICorner", {
-                CornerRadius = UDim.new(0, Library.CornerRadius / 2),
-                Parent = Bar,
-            })
-        )
-
-        table.insert(
-            Library.Corners,
-            New("UICorner", {
-                CornerRadius = UDim.new(0, Library.CornerRadius / 2),
-                Parent = Fill,
-            })
-        )
+        local function updateSlider(val)
+            val = math.clamp(val, Slider.Min, Slider.Max)
+            val = Round(val, Slider.Rounding)
+            Slider.Value = val
+            local p = (val - Slider.Min) / (Slider.Max - Slider.Min)
+            Fill.Size = UDim2.fromScale(p, 1)
+            ValueLabel.Text = Slider.Prefix .. val .. Slider.Suffix
+        end
+        updateSlider(Slider.Value)
 
         function Slider:UpdateColors()
-            if Library.Unloaded then
-                return
-            end
-
-            if SliderLabel then
-                SliderLabel.TextTransparency = Slider.Disabled and 0.8 or 0
-            end
-            DisplayLabel.TextTransparency = Slider.Disabled and 0.8 or 0
-
-            Fill.BackgroundColor3 = Slider.Disabled and Library.Scheme.OutlineColor or Library.Scheme.AccentColor
-            Library.Registry[Fill].BackgroundColor3 = Slider.Disabled and "OutlineColor" or "AccentColor"
         end
 
         function Slider:Display()
-            if Library.Unloaded then
-                return
-            end
-
-            local CustomDisplayText = nil
-            if Info.FormatDisplayValue then
-                CustomDisplayText = Info.FormatDisplayValue(Slider, Slider.Value)
-            end
-
-            if CustomDisplayText then
-                DisplayLabel.Text = tostring(CustomDisplayText)
-            else
-                if Info.Compact then
-                    DisplayLabel.Text =
-                        string.format("%s: %s%s%s", Slider.Text, Slider.Prefix, Slider.Value, Slider.Suffix)
-                elseif Info.HideMax then
-                    DisplayLabel.Text = string.format("%s%s%s", Slider.Prefix, Slider.Value, Slider.Suffix)
-                else
-                    DisplayLabel.Text = string.format(
-                        "%s%s%s/%s%s%s",
-                        Slider.Prefix,
-                        Slider.Value,
-                        Slider.Suffix,
-                        Slider.Prefix,
-                        Slider.Max,
-                        Slider.Suffix
-                    )
-                end
-            end
-
-            local X = (Slider.Value - Slider.Min) / (Slider.Max - Slider.Min)
-            Fill.Size = UDim2.fromScale(X, 1)
+            if Library.Unloaded then return end
+            local p = (Slider.Value - Slider.Min) / (Slider.Max - Slider.Min)
+            Fill.Size = UDim2.fromScale(p, 1)
+            ValueLabel.Text = Slider.Prefix .. Slider.Value .. Slider.Suffix
         end
 
         function Slider:OnChanged(Func)
@@ -4553,7 +4463,6 @@ do
 
         function Slider:SetMax(Value)
             assert(Value > Slider.Min, "Max value cannot be less than the current min value.")
-
             Slider:SetValue(math.clamp(Slider.Value, Slider.Min, Value))
             Slider.Max = Value
             Slider:Display()
@@ -4561,56 +4470,38 @@ do
 
         function Slider:SetMin(Value)
             assert(Value < Slider.Max, "Min value cannot be greater than the current max value.")
-
             Slider:SetValue(math.clamp(Slider.Value, Value, Slider.Max))
             Slider.Min = Value
             Slider:Display()
         end
 
         function Slider:SetValue(Str)
-            if Slider.Disabled then
-                return
-            end
-
+            if Slider.Disabled then return end
             local Num = tonumber(Str)
-            if not Num or Num == Slider.Value then
-                return
-            end
-
+            if not Num or Num == Slider.Value then return end
             Num = math.clamp(Num, Slider.Min, Slider.Max)
-
             Slider.Value = Num
-            Slider:Display()
-
+            updateSlider(Num)
             Library:SafeCallback(Slider.Callback, Slider.Value)
             Library:SafeCallback(Slider.Changed, Slider.Value)
         end
 
         function Slider:SetDisabled(Disabled: boolean)
             Slider.Disabled = Disabled
-
             if Slider.TooltipTable then
                 Slider.TooltipTable.Disabled = Slider.Disabled
             end
-
-            Bar.Active = not Slider.Disabled
-            Slider:UpdateColors()
         end
 
         function Slider:SetVisible(Visible: boolean)
             Slider.Visible = Visible
-
             Holder.Visible = Slider.Visible
             Groupbox:Resize()
         end
 
         function Slider:SetText(Text: string)
             Slider.Text = Text
-            if SliderLabel then
-                SliderLabel.Text = Text
-                return
-            end
-            Slider:Display()
+            if SliderLabel then SliderLabel.Text = Text end
         end
 
         function Slider:SetPrefix(Prefix: string)
@@ -4623,54 +4514,35 @@ do
             Slider:Display()
         end
 
-        Bar.InputBegan:Connect(function(Input: InputObject)
-            if not IsClickInput(Input) or Slider.Disabled then
-                return
+        local dragging = false
+        Track.InputBegan:Connect(function(inp: InputObject)
+            if not IsClickInput(inp) or Slider.Disabled then return end
+            dragging = true
+            local function updateFromMouse()
+                local ap = Track.AbsolutePosition
+                local p = math.clamp((UserInputService:GetMouseLocation().X - ap.X) / Track.AbsoluteSize.X, 0, 1)
+                local val = Slider.Min + (Slider.Max - Slider.Min) * p
+                updateSlider(val)
             end
-
-            if Library.ActiveTab then
-                for _, Side in Library.ActiveTab.Sides do
-                    Side.ScrollingEnabled = false
-                end
-            end
-
-            if Library.ActiveLoading and Library.ActiveLoading.Sidebar then
-                Library.ActiveLoading.Sidebar.Container.ScrollingEnabled = false
-            end
-
-            while IsDragInput(Input) do
-                local Location = Mouse.X
-                local Scale = math.clamp((Location - Bar.AbsolutePosition.X) / Bar.AbsoluteSize.X, 0, 1)
-
-                local OldValue = Slider.Value
-                Slider.Value = Round(Slider.Min + ((Slider.Max - Slider.Min) * Scale), Slider.Rounding)
-
-                Slider:Display()
-                if Slider.Value ~= OldValue then
-                    Library:SafeCallback(Slider.Callback, Slider.Value)
-                    Library:SafeCallback(Slider.Changed, Slider.Value)
-                end
-
+            updateFromMouse()
+            while dragging do
+                updateFromMouse()
+                Library:SafeCallback(Slider.Callback, Slider.Value)
+                Library:SafeCallback(Slider.Changed, Slider.Value)
                 RunService.RenderStepped:Wait()
             end
-
-            if Library.ActiveTab then
-                for _, Side in Library.ActiveTab.Sides do
-                    Side.ScrollingEnabled = true
-                end
-            end
-
-            if Library.ActiveLoading and Library.ActiveLoading.Sidebar then
-                Library.ActiveLoading.Sidebar.Container.ScrollingEnabled = true
+        end)
+        UserInputService.InputEnded:Connect(function(inp: InputObject)
+            if inp.UserInputType == Enum.UserInputType.MouseButton1 then
+                dragging = false
             end
         end)
 
         if typeof(Slider.Tooltip) == "string" or typeof(Slider.DisabledTooltip) == "string" then
-            Slider.TooltipTable = Library:AddTooltip(Slider.Tooltip, Slider.DisabledTooltip, Bar)
+            Slider.TooltipTable = Library:AddTooltip(Slider.Tooltip, Slider.DisabledTooltip, Track)
             Slider.TooltipTable.Disabled = Slider.Disabled
         end
 
-        Slider:UpdateColors()
         Slider:Display()
         Groupbox:Resize()
 
@@ -4726,40 +4598,43 @@ do
         }
 
         local Holder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, Dropdown.Text and 39 or 21),
+            BackgroundColor3 = "MainColor",
+            Size = UDim2.new(1, 0, 0, 40),
             Visible = Dropdown.Visible,
             Parent = Container,
+        })
+        New("UICorner", {
+            CornerRadius = UDim.new(0, 6),
+            Parent = Holder,
+        })
+        New("UIStroke", {
+            Color = "OutlineColor",
+            Parent = Holder,
         })
 
         local Label = New("TextLabel", {
             BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 14),
+            Size = UDim2.new(1, -120, 1, 0),
+            Position = UDim2.fromOffset(15, 0),
             Text = Dropdown.Text,
-            TextSize = 14,
+            TextSize = 13,
             TextXAlignment = Enum.TextXAlignment.Left,
             Visible = not not Info.Text,
-            ZIndex = 3,
             Parent = Holder,
         })
 
         local DisplayContainer = New("TextButton", {
-            AnchorPoint = Vector2.new(0, 1),
-            BackgroundColor3 = "MainColor",
-            Position = UDim2.fromScale(0, 1),
-            Size = UDim2.new(1, 0, 0, 21),
+            BackgroundColor3 = "BackgroundColor",
+            Position = UDim2.new(1, -115, 0.5, -10),
+            Size = UDim2.fromOffset(110, 20),
             Text = "",
             TextTransparency = 1,
-            ZIndex = 2,
             Parent = Holder,
         })
-
-        New("UIPadding", {
-            PaddingLeft = UDim.new(0, 8),
-            PaddingRight = UDim.new(0, 4),
+        New("UICorner", {
+            CornerRadius = UDim.new(0, 4),
             Parent = DisplayContainer,
         })
-
         New("UIStroke", {
             Color = "OutlineColor",
             Parent = DisplayContainer,
@@ -6327,6 +6202,8 @@ function Library:Notify(...)
         end
     end
 
+    local NotifyExitInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
+
     function Data:Destroy()
         Data.Destroyed = true
 
@@ -6339,12 +6216,12 @@ function Library:Notify(...)
         end
 
         TweenService
-            :Create(Holder, Library.NotifyTweenInfo, {
+            :Create(Holder, NotifyExitInfo, {
                 Position = Library.NotifySide:lower() == "left" and UDim2.new(-1, -8, 0, -2) or UDim2.new(1, 8, 0, -2),
             })
             :Play()
 
-        task.delay(Library.NotifyTweenInfo.Time, function()
+        task.delay(0.3, function()
             Library.Notifications[FakeBackground] = nil
             FakeBackground:Destroy()
         end)
