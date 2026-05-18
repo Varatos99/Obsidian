@@ -233,7 +233,7 @@ local Library = {
         DarkColor = Color3.new(0, 0, 0),
         WhiteColor = Color3.new(1, 1, 1),
         NotificationBg = Color3.fromRGB(33, 30, 43),
-        SidebarColor = Color3.fromRGB(24, 21, 34),
+        SidebarColor = Color3.fromRGB(28, 25, 38),
     },
 
     Registry = {},
@@ -1081,6 +1081,11 @@ function Library:GetCustomIcon(IconName: string): any
 
     if tonumber(IconName) then
         IconName = string.format("rbxassetid://%s", tostring(IconName))
+    end
+
+    local assetId = IconName:match("^rbxasset://(%d+)$")
+    if assetId then
+        IconName = string.format("rbxassetid://%s", assetId)
     end
 
     local CustomIcon = IsValidCustomIcon(IconName)
@@ -6415,7 +6420,6 @@ function Library:CreateWindow(WindowInfo)
         --// Top Bar \\-
         local TopBar = New("Frame", {
             BackgroundColor3 = "BackgroundColor",
-            BackgroundTransparency = 0.15,
             Size = UDim2.new(1, 0, 0, 50),
             Parent = MainFrame,
         })
@@ -6444,8 +6448,10 @@ function Library:CreateWindow(WindowInfo)
             local Icon = Library:GetCustomIcon(WindowInfo.Icon)
             WindowIcon = New("ImageLabel", {
                 Image = Icon.Url,
+                ImageColor3 = Color3.new(1, 1, 1),
                 ImageRectOffset = Icon.ImageRectOffset,
                 ImageRectSize = Icon.ImageRectSize,
+                ScaleType = Enum.ScaleType.Fit,
                 Size = WindowInfo.IconSize,
                 Parent = TitleHolder,
             })
