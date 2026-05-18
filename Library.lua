@@ -6486,7 +6486,7 @@ function Library:CreateWindow(WindowInfo)
             BackgroundTransparency = 1,
             Size = UDim2.new(0, X, 1, 0),
             Text = WindowInfo.Title,
-            Font = Font.fromEnum(Enum.Font.GothamSemibold),
+            Font = Enum.Font.GothamSemibold,
             TextSize = 14,
             Parent = TitleHolder,
         })
