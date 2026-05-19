@@ -47,9 +47,8 @@ do
     ThemeManager.Library = nil
     ThemeManager.AppliedToTab = false
     ThemeManager.BuiltInThemes = {
-        ["Default"] = {
-            1,
-            { FontColor = "ffffff", MainColor = "191919", AccentColor = "7d55ff", BackgroundColor = "0f0f0f", OutlineColor = "282828" },
+        Default"] = { 1, 
+            { FontColor = "ffffff", MainColor = "1a0023", AccentColor = "3f004f", BackgroundColor = "16001e", OutlineColor = "66027f" } 
         },
         ["BBot"] = {
             2,
