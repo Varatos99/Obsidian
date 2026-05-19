@@ -219,11 +219,11 @@ local Library = {
 
     IsLightTheme = false,
     Scheme = {
-        BackgroundColor = Color3.fromRGB(35, 32, 48),
-        MainColor = Color3.fromRGB(47, 43, 60),
-        AccentColor = Color3.fromRGB(170, 90, 235),
+        BackgroundColor = Color3.fromRGB(22, 0, 30),
+        MainColor = Color3.fromRGB(26, 0, 35),
+        AccentColor = Color3.fromRGB(63, 0, 79),
         Accent2Color = Color3.fromRGB(255, 210, 50),
-        OutlineColor = Color3.fromRGB(65, 58, 80),
+        OutlineColor = Color3.fromRGB(102, 2, 127),
         FontColor = Color3.new(1, 1, 1),
         TextMuted = Color3.fromRGB(160, 165, 185),
         Font = Font.fromEnum(Enum.Font.GothamMedium),
@@ -232,8 +232,8 @@ local Library = {
         DestructiveColor = Color3.fromRGB(220, 38, 38),
         DarkColor = Color3.new(0, 0, 0),
         WhiteColor = Color3.new(1, 1, 1),
-        NotificationBg = Color3.fromRGB(40, 37, 53),
-        SidebarColor = Color3.fromRGB(35, 32, 48),
+        NotificationBg = Color3.fromRGB(22, 0, 30),
+        SidebarColor = Color3.fromRGB(22, 0, 30),
     },
 
     Registry = {},
