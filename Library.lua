@@ -8493,7 +8493,20 @@ TabLabel.TextColor3 = Library.Scheme.WhiteColor
             Library.Toggled = not Library.Toggled
         end
 
-        MainFrame.Visible = Library.Toggled
+        if Library.Toggled then
+            MainFrame.Visible = true
+            TweenService:Create(MainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+                Size = WindowInfo.Size,
+            }):Play()
+        else
+            TweenService:Create(MainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+                Size = UDim2.fromOffset(0, 0),
+            }):Play()
+            task.delay(0.25, function()
+                MainFrame.Visible = false
+                MainFrame.Size = WindowInfo.Size
+            end)
+        end
 
         if WindowInfo.UnlockMouseWhileOpen then
             ModalElement.Modal = Library.Toggled
@@ -8578,7 +8591,28 @@ TabLabel.TextColor3 = Library.Scheme.WhiteColor
             ToggleButton.Position = UDim2.new(1, -51, 0, 6)
         end
         Library:MakeDraggable(ToggleButton, ToggleButton, true)
-        ToggleButton.MouseButton1Click:Connect(Library.Toggle)
+        local function TogglePress()
+            TweenService:Create(ToggleButton, TweenInfo.new(0.1), {
+                Size = UDim2.fromOffset(38, 38),
+            }):Play()
+            TweenService:Create(ToggleIcon, TweenInfo.new(0.1), {
+                Size = UDim2.fromOffset(20, 20),
+            }):Play()
+        end
+        local function ToggleRelease()
+            TweenService:Create(ToggleButton, TweenInfo.new(0.15, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+                Size = UDim2.fromOffset(45, 45),
+            }):Play()
+            TweenService:Create(ToggleIcon, TweenInfo.new(0.15, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+                Size = UDim2.fromOffset(24, 24),
+            }):Play()
+        end
+        ToggleButton.MouseButton1Down:Connect(TogglePress)
+        ToggleButton.MouseButton1Up:Connect(ToggleRelease)
+        ToggleButton.MouseButton1Click:Connect(function()
+            ToggleRelease()
+            Library.Toggle()
+        end)
 
         local LockButton = Library:AddDraggableButton("Lock", function(self)
             Library.CantDragForced = not Library.CantDragForced
