@@ -6896,10 +6896,10 @@ function Library:CreateWindow(WindowInfo)
             if Icon then
                 TabIcon = New("ImageLabel", {
                     Image = Icon.Url,
-                    ImageColor3 = "AccentColor",
+                    ImageColor3 = "WhiteColor",
                     ImageRectOffset = Icon.ImageRectOffset,
                     ImageRectSize = Icon.ImageRectSize,
-                    ImageTransparency = 0.5,
+                    ImageTransparency = 0.4,
                     ScaleType = Enum.ScaleType.Fit,
                     Size = UDim2.fromOffset(16, 16),
                     Position = UDim2.fromOffset(8, 8),
