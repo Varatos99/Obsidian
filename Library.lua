@@ -6446,15 +6446,17 @@ function Library:CreateWindow(WindowInfo)
 
         if WindowInfo.Icon then
             local Icon = Library:GetCustomIcon(WindowInfo.Icon)
-            WindowIcon = New("ImageLabel", {
-                Image = Icon.Url,
-                ImageColor3 = Color3.new(1, 1, 1),
-                ImageRectOffset = Icon.ImageRectOffset,
-                ImageRectSize = Icon.ImageRectSize,
-                ScaleType = Enum.ScaleType.Fit,
-                Size = WindowInfo.IconSize,
-                Parent = TitleHolder,
-            })
+            if Icon then
+                WindowIcon = New("ImageLabel", {
+                    Image = Icon.Url,
+                    ImageColor3 = Color3.new(1, 1, 1),
+                    ImageRectOffset = Icon.ImageRectOffset,
+                    ImageRectSize = Icon.ImageRectSize,
+                    ScaleType = Enum.ScaleType.Fit,
+                    Size = WindowInfo.IconSize,
+                    Parent = TitleHolder,
+                })
+            end
         else
             WindowIcon = New("TextLabel", {
                 BackgroundTransparency = 1,
@@ -7613,7 +7615,7 @@ function Library:CreateWindow(WindowInfo)
             }):Play()
             if TabIcon then
                 TweenService:Create(TabIcon, Library.TweenInfo, {
-                    ImageTransparency = Hovering and 0.25 or 0.5,
+                    ImageTransparency = Hovering and 0.15 or 0.4,
                 }):Play()
             end
         end
@@ -7655,21 +7657,21 @@ function Library:CreateWindow(WindowInfo)
             TweenService:Create(TabButton, Library.TweenInfo, {
                 BackgroundTransparency = 1,
             }):Play()
-            TabLabel.TextColor3 = Library.Scheme.WhiteColor
-            TweenService:Create(TabLabel, Library.TweenInfo, {
-                TextTransparency = 0.5,
-            }):Play()
-            if TabIcon then
-                TabIcon.ImageColor3 = Library.Scheme.AccentColor
-                TweenService:Create(TabIcon, Library.TweenInfo, {
-                    ImageTransparency = 0.5,
-                }):Play()
-            end
-            TabContainer.Visible = false
+TabLabel.TextColor3 = Library.Scheme.WhiteColor
+			TweenService:Create(TabLabel, Library.TweenInfo, {
+				TextTransparency = 0.25,
+			}):Play()
+			if TabIcon then
+				TabIcon.ImageColor3 = Library.Scheme.WhiteColor
+				TweenService:Create(TabIcon, Library.TweenInfo, {
+					ImageTransparency = 0.4,
+				}):Play()
+			end
+			TabContainer.Visible = false
 
-            Window:HideTabInfo()
+			Window:HideTabInfo()
 
-            Library.ActiveTab = nil
+			Library.ActiveTab = nil
         end
 
         function Tab:SetVisible(Visible: boolean)
@@ -7791,10 +7793,10 @@ function Library:CreateWindow(WindowInfo)
             if Icon then
                 TabIcon = New("ImageLabel", {
                     Image = Icon.Url,
-                    ImageColor3 = Icon.Custom and "WhiteColor" or "AccentColor",
+                    ImageColor3 = "WhiteColor",
                     ImageRectOffset = Icon.ImageRectOffset,
                     ImageRectSize = Icon.ImageRectSize,
-                    ImageTransparency = 0.5,
+                    ImageTransparency = 0.4,
                     Size = UDim2.fromScale(1, 1),
                     SizeConstraint = IsCompact and Enum.SizeConstraint.RelativeXY or Enum.SizeConstraint.RelativeYY,
                     Parent = TabButton,
@@ -7919,7 +7921,7 @@ function Library:CreateWindow(WindowInfo)
             }):Play()
             if TabIcon then
                 TweenService:Create(TabIcon, Library.TweenInfo, {
-                    ImageTransparency = Hovering and 0.25 or 0.5,
+                    ImageTransparency = Hovering and 0.15 or 0.4,
                 }):Play()
             end
         end
@@ -7961,21 +7963,21 @@ function Library:CreateWindow(WindowInfo)
             TweenService:Create(TabButton, Library.TweenInfo, {
                 BackgroundTransparency = 1,
             }):Play()
-            TabLabel.TextColor3 = Library.Scheme.WhiteColor
-            TweenService:Create(TabLabel, Library.TweenInfo, {
-                TextTransparency = 0.5,
-            }):Play()
-            if TabIcon then
-                TabIcon.ImageColor3 = Library.Scheme.AccentColor
-                TweenService:Create(TabIcon, Library.TweenInfo, {
-                    ImageTransparency = 0.5,
-                }):Play()
-            end
-            TabContainer.Visible = false
+TabLabel.TextColor3 = Library.Scheme.WhiteColor
+			TweenService:Create(TabLabel, Library.TweenInfo, {
+				TextTransparency = 0.25,
+			}):Play()
+			if TabIcon then
+				TabIcon.ImageColor3 = Library.Scheme.WhiteColor
+				TweenService:Create(TabIcon, Library.TweenInfo, {
+					ImageTransparency = 0.4,
+				}):Play()
+			end
+			TabContainer.Visible = false
 
-            Window:HideTabInfo()
+			Window:HideTabInfo()
 
-            Library.ActiveTab = nil
+			Library.ActiveTab = nil
         end
 
         function Tab:SetVisible(Visible: boolean)
@@ -8542,27 +8544,53 @@ function Library:CreateWindow(WindowInfo)
     end
 
     if Library.IsMobile then
-        local ToggleButton = Library:AddDraggableButton("Toggle", function()
-            Library:Toggle()
-        end, true)
+        local ToggleButton = New("TextButton", {
+            AutoButtonColor = false,
+            BackgroundColor3 = "BackgroundColor",
+            Size = UDim2.fromOffset(45, 45),
+            Text = "",
+            Visible = WindowInfo.ShowMobileButtons ~= false,
+            ZIndex = 100,
+            Parent = ScreenGui,
+        })
+        New("UICorner", {
+            CornerRadius = UDim.new(1, 0),
+            Parent = ToggleButton,
+        })
+        New("UIStroke", {
+            Color = "AccentColor",
+            Thickness = 2,
+            Parent = ToggleButton,
+        })
+        local ToggleIcon = New("ImageLabel", {
+            Image = "rbxthumb://type=Asset&id=138229854255851&w=150&h=150",
+            ImageColor3 = Color3.new(1, 1, 1),
+            ScaleType = Enum.ScaleType.Fit,
+            Size = UDim2.fromOffset(24, 24),
+            AnchorPoint = Vector2.new(0.5, 0.5),
+            Position = UDim2.fromScale(0.5, 0.5),
+            Parent = ToggleButton,
+        })
+
+        if WindowInfo.MobileButtonsSide == "Left" then
+            ToggleButton.Position = UDim2.fromOffset(6, 6)
+        else
+            ToggleButton.Position = UDim2.new(1, -51, 0, 6)
+        end
+        Library:MakeDraggable(ToggleButton, ToggleButton, true)
+        ToggleButton.MouseButton1Click:Connect(Library.Toggle)
 
         local LockButton = Library:AddDraggableButton("Lock", function(self)
             Library.CantDragForced = not Library.CantDragForced
             self:SetText(Library.CantDragForced and "Unlock" or "Lock")
         end, true)
-
-        if WindowInfo.MobileButtonsSide == "Right" then
-            ToggleButton.Button.Position = UDim2.new(1, -6, 0, 6)
-            ToggleButton.Button.AnchorPoint = Vector2.new(1, 0)
-
-            LockButton.Button.Position = UDim2.new(1, -6, 0, 46)
-            LockButton.Button.AnchorPoint = Vector2.new(1, 0)
+        if WindowInfo.MobileButtonsSide == "Left" then
+            LockButton.Button.Position = UDim2.fromOffset(6, 56)
         else
-            LockButton.Button.Position = UDim2.fromOffset(6, 46)
+            LockButton.Button.Position = UDim2.new(1, -6, 0, 56)
+            LockButton.Button.AnchorPoint = Vector2.new(1, 0)
         end
-
         if WindowInfo.ShowMobileButtons == false then
-            ToggleButton.Button.Visible = false
             LockButton.Button.Visible = false
         end
     end
