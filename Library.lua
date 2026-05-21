@@ -8494,20 +8494,7 @@ TabLabel.TextColor3 = Library.Scheme.WhiteColor
             Library.Toggled = not Library.Toggled
         end
 
-        if Library.Toggled then
-            MainFrame.Visible = true
-            TweenService:Create(MainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-                Size = WindowInfo.Size,
-            }):Play()
-        else
-            TweenService:Create(MainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-                Size = UDim2.fromOffset(0, 0),
-            }):Play()
-            task.delay(0.25, function()
-                MainFrame.Visible = false
-                MainFrame.Size = WindowInfo.Size
-            end)
-        end
+        MainFrame.Visible = Library.Toggled
 
         if WindowInfo.UnlockMouseWhileOpen then
             ModalElement.Modal = Library.Toggled
