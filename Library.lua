@@ -4518,7 +4518,7 @@ do
             end
         end)
         UserInputService.InputEnded:Connect(function(inp: InputObject)
-            if inp.UserInputType == Enum.UserInputType.MouseButton1 then
+            if inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch then
                 dragging = false
             end
         end)
